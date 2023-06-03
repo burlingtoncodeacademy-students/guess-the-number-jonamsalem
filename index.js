@@ -18,55 +18,82 @@ function ask(questionText)  {
 
 // QUESTIONS WHAT IF I DONT USE AWAIT AND DOES FUNCTION FOR GUESS PARAMETERS HAVE TO AWAIT
 
-let compGuessRounded
-mins = [1, ]
-maxs = [100, ]
 
+async function start() {
+  let lowBarrier = await ask ("What do you want the low barrier to be? Inert numbers only! ")
+  let lowBarrierNum = Number(lowBarrier)
+  let highBarrier = await ask ("What do you want the high barrier to be? Insert numbers only! ")
+  let highBarrierNum = Number(highBarrier)
+
+
+  guesses = []
+
+  
+let compGuessRounded
+
+
+mins = [lowBarrierNum, ]
+maxs = [highBarrierNum, ]
+ 
 async function compGuessParameters (min , max){
   compGuessRounded = Math.round((max + min )/ 2)
+  console.log(compGuessRounded)
   guesses.push(compGuessRounded)
-  console.log(min , max)
+  console.log(min, max)
   
 }
 
-guesses = []
-let gameIsOn = true
 
-async function start() {
-  console.log("Let's play a game where you (human) make up a number between 1 and 100 and I (computer) try to guess it.")
+let gameIsOn = true
+  console.log(`Let's play a game where you (human) make up a number between ${lowBarrierNum} and ${highBarrierNum} and I (computer) try to guess it.`)
   let secretNumber = await ask("What is your secret number?\nI won't peek, I promise...\n");
   console.log('You entered: ' + secretNumber);
+    let firstNumber = Math.round((Math.random()*(highBarrierNum - lowBarrierNum) + lowBarrierNum))
+    compGuessRounded = firstNumber
+    let answer = await ask(`is the number ${firstNumber}? `) 
 
-    compGuessParameters(1, 100)
-
-  while (gameIsOn){
-     let answer = await ask(`is the number ${compGuessRounded}? `)    
-
-    if (answer == "no".toLowerCase()){
-      higherOrLower = await ask("is it higher or lower? h/l: ")
-        if (higherOrLower =="h".toLowerCase()){
-          mins.push(compGuessRounded)
-          compGuessParameters(compGuessRounded, maxs[maxs.length-1])
-        }
-
-        else if (higherOrLower =="l".toLowerCase()){
-          maxs.push(compGuessRounded)
-          compGuessParameters(mins[mins.length-1], compGuessRounded)
-        }
-
-        else{
-          await ask("you entered an invalid option please try again.")
-        }
-      }
-
-      else{
-        gameIsOn= false
-        console.log("game over")
-        
-      }
+    if (answer == "yes".toLowerCase()){
+      console.log("I won in the first try!!")
     }
+    else {
+    while (gameIsOn){
+      if (answer == "no".toLowerCase()){
 
-  }
+        higherOrLower = await ask("is it higher or lower? h/l: ")
+
+          if (higherOrLower =="h".toLowerCase()){
+            compGuessParameters(compGuessRounded, maxs[maxs.length-1])
+            answer = await ask(`is the number ${compGuessRounded}? `)    
+
+          }
+
+          else if (higherOrLower =="l".toLowerCase()){
+            maxs.push(compGuessRounded)
+            console.log(mins,maxs)
+            compGuessParameters(mins[mins.length-1], compGuessRounded)
+            answer = await ask(`is the number ${compGuessRounded}? `)    
+
+          }
+
+          else{
+            await ask("you entered an invalid option please try again.")
+          }
+        }
+
+        else if(answer == "yes"){
+          gameIsOn= false
+          console.log("game over")
+        }
+      
+          
+        else {
+          console.log("Invalid input try again")
+        } 
+        }
+      
+
+  
+  
 
 
 
@@ -74,8 +101,8 @@ async function start() {
 
 
 
-
-
+      
+      }}
 
 
 
