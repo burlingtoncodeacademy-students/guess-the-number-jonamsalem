@@ -7,105 +7,158 @@ function ask(questionText)  {
   });
 }
 
+let compGuess
+guesses = []
 
-// create a while loop that allows guesses for the computer
-// create a computer guess between 1 and 100
-// create a input response if correct, higher or lower
-// 
-// create a function that takes in a min and max based on your answer of Higher or lower
-// have that function always return the medium as the guess
-// 
+async function compGuesser(min, max){
+  compGuess = Math.round((max + min) /2 )
 
-// QUESTIONS WHAT IF I DONT USE AWAIT AND DOES FUNCTION FOR GUESS PARAMETERS HAVE TO AWAIT
-
+}
 
 async function start() {
+  gameIsOn = true
+
+  console.log(`Let's play a game where you (human) make up a number between two numbers and I (computer) try to guess it.`)
+
   let lowBarrier = await ask ("What do you want the low barrier to be? Inert numbers only! ")
   let lowBarrierNum = Number(lowBarrier)
+
   let highBarrier = await ask ("What do you want the high barrier to be? Insert numbers only! ")
   let highBarrierNum = Number(highBarrier)
 
 
-  guesses = []
+  let secretNumber = await ask("What is your secret number?\nI won't peek, I promise...\n");
+  console.log('You entered: ' + secretNumber);
 
-  
-let compGuessRounded
+  while (gameIsOn){
+    compGuesser(lowBarrierNum ,highBarrierNum)
+    answer =  await ask(`is the value ${compGuess}`)
 
 
-mins = [lowBarrierNum, ]
-maxs = [highBarrierNum, ]
- 
-async function compGuessParameters (min , max){
-  compGuessRounded = Math.round((max + min )/ 2)
-  console.log(compGuessRounded)
-  guesses.push(compGuessRounded)
-  console.log(min, max)
-  
+    if (answer =="no"){
+      let highOrLow = await ask("is it higher or lower? h/l: ")
+        if (highOrLow == "h"){
+          lowBarrierNum = compGuess
+        }
+        else if (highOrLow == "l"){
+          highBarrierNum =  compGuess
+        }
+
+        else {
+         console.log("Invalid input.")
+         
+        
+    }
+  }
+    else if (answer == "yes"){
+      console.log("I won")
+      process.exit()
+
+    }
+
+    else {
+      console.log("invalid input")
+     
+  }
+
+
+}
+
 }
 
 
-let gameIsOn = true
-  console.log(`Let's play a game where you (human) make up a number between ${lowBarrierNum} and ${highBarrierNum} and I (computer) try to guess it.`)
-  let secretNumber = await ask("What is your secret number?\nI won't peek, I promise...\n");
-  console.log('You entered: ' + secretNumber);
-    let firstNumber = Math.round((Math.random()*(highBarrierNum - lowBarrierNum) + lowBarrierNum))
-    compGuessRounded = firstNumber
-    let answer = await ask(`is the number ${firstNumber}? `) 
 
-    if (answer == "yes".toLowerCase()){
-      console.log("I won in the first try!!")
-    }
-    else {
-    while (gameIsOn){
-      if (answer == "no".toLowerCase()){
 
-        higherOrLower = await ask("is it higher or lower? h/l: ")
 
-          if (higherOrLower =="h".toLowerCase()){
-            compGuessParameters(compGuessRounded, maxs[maxs.length-1])
-            answer = await ask(`is the number ${compGuessRounded}? `)    
+start()
 
-          }
 
-          else if (higherOrLower =="l".toLowerCase()){
-            maxs.push(compGuessRounded)
-            console.log(mins,maxs)
-            compGuessParameters(mins[mins.length-1], compGuessRounded)
-            answer = await ask(`is the number ${compGuessRounded}? `)    
 
-          }
 
-          else{
-            await ask("you entered an invalid option please try again.")
-          }
-        }
 
-        else if(answer == "yes"){
-          gameIsOn= false
-          console.log("game over")
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//     let firstNumber = Math.round((Math.random()*(highBarrierNum - lowBarrierNum) + lowBarrierNum))
+//     compGuessRounded = firstNumber
+//     let firstAnswer = await ask(`is the number ${firstNumber}? `) 
+//     let answer = await ask(`is the answer ${compGuessRounded}`)
+
+//     if (firstAnswer == "yes".toLowerCase()){
+//         console.log("I won in the first try!!")
+//         process.exit()}
+    
+//     else if (firstAnswer != "no"){
+//       console.log("Invalid answer try again")
+//       Firstanswer = await ask(`is the number ${firstNumber}? `) 
+
+//       }
+//       else {
+//       while (gameIsOn){
+//         if (answer == "no".toLowerCase()){
+
+//           higherOrLower = await ask("is it higher or lower? h/l: ")
+
+//             if (higherOrLower =="h".toLowerCase()){
+//               GuessParameters(compGuessRounded, maxs[maxs.length-1])
+//               answer = await ask(`is the number ${compGuessRounded}? `)    
+
+//             }
+
+//             else if (higherOrLower =="l".toLowerCase()){
+//               maxs.push(compGuessRounded)
+//               console.log(mins,maxs)
+//               GuessParameters(mins[mins.length-1], compGuessRounded)
+//               answer = await ask(`is the number ${compGuessRounded}? `)    
+
+//             }
+
+//             else{
+//               console.log("Invalid input try again.")
+//               answer = await ask(`is the number ${compGuessRounded}? `)    
+
+//             }
+//           }
+
+//           else if(answer == "yes"){
+//             gameIsOn= false
+//             console.log("Wow game over")
+//             process.exit()
+//           }
+        
+            
+//           else {
+//             console.log("Invalid input try again.")
+//             let answer = await ask(`is the number ${firstNumber}? `) 
+
+//           } 
+//           }
+        
+
+    
+    
+
+
+
+
+
+
+
       
-          
-        else {
-          console.log("Invalid input try again")
-        } 
-        }
-      
-
-  
-  
+//       }}
 
 
 
 
 
-
-
-      
-      }}
-
-
-
-
-
-start ();
+// start ();
