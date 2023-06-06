@@ -114,8 +114,8 @@ async function start_computer() {
 
 // create new median from limits and check against the secret number 
       compGuesser(lowBarrierNum ,highBarrierNum)
-      console.log(lowBarrierNum, highBarrierNum)
-      let answer =  await ask(`Is the value ${compGuess}? `)
+      console.log(`My limits are ${lowBarrierNum} and ${highBarrierNum}`)
+      let answer =  await ask(`\nIs the value ${compGuess}?\n`)
   
 
 // if won,breaks from loop
@@ -188,7 +188,6 @@ async function start_computer() {
 
 // loop through game until correct or guesses done  
         while (trys > 0 ){
-
           userGuess = await ask("\nWhat do you think the number is? ")
           trys -= 1
 // if user input is not a number or out of limits break from loop
