@@ -224,7 +224,7 @@ async function start_user() {
               console.log("my number is lower than that\n")
             }
 
-// user input not in rangle of limits or NaN
+// user input not in range of limits or NaN
             else{
               console.log("Invalid input...\n")
               continue
