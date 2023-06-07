@@ -31,8 +31,8 @@ async function start_user() {
 
 // invalid inputs lead to to restart of the game
 if (isNaN(lowBarrier) == true || isNaN(highBarrier) == true || lowBarrierNum >= highBarrier){
-  console.log("Sorry invalid input... you must start again\n")
-  start_user()
+  console.log("Sorry invalid input... ")
+  process.exit()
  }
 
 // create random number between two limits

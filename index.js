@@ -10,6 +10,7 @@ function ask(questionText)  {
  // declaring variables for global scope
 let firstGuessNum
 let trys 
+let secretNumber
 let compGuess
 let guesses = []
 
@@ -57,7 +58,7 @@ async function start_computer() {
   let highBarrierNum = Number(highBarrier)
 
 
-  let secretNumber = await ask("What is your secret number?\nI won't peek, I promise...\n");
+  secretNumber = await ask("What is your secret number?\nI won't peek, I promise...\n");
 
   console.log('You entered: ' + secretNumber);
 
@@ -90,13 +91,13 @@ async function start_computer() {
 
 // while loop initiated after first guess is wrong. First requirement is to check that computer still has trys
       while(trys > 0 ){
-        let highOrLow = await ask("is it higher or lower? h/l: ")
-      
- //   cheat detector checks is low limit > high limit or by referring to guesses array to see if high/low limit is claimed otherwise
-        if (lowBarrierNum >= highBarrierNum){
-          console.log("you are cheating! The game is over!!")
-          process.exit()
-        }
+        let highOrLow = await ask("is your number higher or lower? h/l: ")
+        
+// cheat detector checks if player lies about whether the guess is higher or lower
+      if (compGuess > secretNumber && highOrLow == "h" || compGuess < secretNumber && highOrLow == "l" ){
+        console.log('You are cheating!!Game over!')
+        process.exit()
+      }
 
 // make guess lower limit by acquiring it from guess array
       if (highOrLow.toLowerCase().trim() == "h"){
@@ -115,7 +116,13 @@ async function start_computer() {
 // create new median from limits and check against the secret number 
       compGuesser(lowBarrierNum ,highBarrierNum)
       console.log(`My limits are ${lowBarrierNum} and ${highBarrierNum}`)
-      let answer =  await ask(`\nIs the value ${compGuess}?\n`)
+      let answer =  await ask(`\nIs the value ${compGuess}? `)
+
+// cheat detector checks if guess is correct yet answer is no
+      if (compGuess == secretNumber && answer == "no"){
+          console.log('You are cheating!!Game over!')
+          process.exit()
+      }
   
 
 // if won,breaks from loop
@@ -175,8 +182,8 @@ async function start_computer() {
 
     // invalid inputs lead to to restart of the game
     if (isNaN(lowBarrier) == true || isNaN(highBarrier) == true || lowBarrierNum >= highBarrier){
-      console.log("Sorry invalid input... you must start again\n")
-      whoStarts()
+      console.log("Sorry invalid input...")
+      process.exit()
      }
     
 // create random number between two limits
@@ -192,7 +199,7 @@ async function start_computer() {
           trys -= 1
 // if user input is not a number or out of limits break from loop
           if (isNaN(userGuess) == true || userGuess < lowBarrierNum || userGuess > highBarrierNum ){
-            console.log("invalid input")
+            console.log("invalid input, your input is not within the range of the number limits")
            break
           }
 
@@ -224,7 +231,7 @@ async function start_computer() {
               }
               }
               
-        playAGain = await ask(`Want to play again? Click y to play again or any key to exit: com`)
+        playAGain = await ask(`Want to play again? Click y to play again or any key to exit: `)
             if (playAGain.toLowerCase().trim()== "y"){
             whoStarts()}
             else{
