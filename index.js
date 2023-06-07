@@ -7,13 +7,12 @@ function ask(questionText)  {
   });
 }
 
- // declaring variables for global scope
+// declaring variables for global scope
 let firstGuessNum
 let trys 
 let secretNumber
 let compGuess
 let guesses = []
-
 
 // function to choose player
 async function whoStarts() {
@@ -50,7 +49,7 @@ async function start_computer() {
 
   console.log(`Let's play a game where you (human) make up a number between two numbers and I (computer) try to guess it. I wil have ${trys} trys.`)
 
-  // set up low and high limits for the game
+// set up low and high limits for the game
   let lowBarrier = await ask ("What do you want the low barrier to be? Inert numbers only!: ")
   let lowBarrierNum = Number(lowBarrier)
 
@@ -62,20 +61,20 @@ async function start_computer() {
 
   console.log('You entered: ' + secretNumber);
 
-  // check if all requirements are numbers to start the game,  
+// check if all requirements are numbers to start the game,  
   if (isNaN(lowBarrier) == true || isNaN(highBarrier) == true || isNaN(secretNumber)== true || lowBarrierNum >= highBarrier){
     console.log("Sorry invalid input... you must start again\n")
     whoStarts()
    }
 
-  // first guess is random between the limits, rest is median. All guesses pushed to guess array for later use
+// first guess is random between the limits, rest is median. All guesses pushed to guess array for later use
   let firstGuess = Math.round(Math.random()*  (highBarrierNum- lowBarrierNum) + lowBarrierNum)
   firstGuessNum = Number(firstGuess)
   guesses.push(firstGuessNum)
 
   let firstGuessQuestion = await ask(`my first guess... is it ${firstGuessNum}? `) 
 
-  // if first guess is correct end game and asked to play again
+// if first guess is correct end game and asked to play again
   if (firstGuessQuestion.toLowerCase().trim() == "yes"){
         playAGain = await ask("Nice I won on my first try. Want to play again? Click y to play again or any key to exit: ")
         if (playAGain.toLowerCase().trim()== "y"){
@@ -84,7 +83,7 @@ async function start_computer() {
           process.exit()
           }
           }
-// if furst guess wrong while loop initiated
+// if first guess wrong while loop initiated
   else if (firstGuessQuestion.toLowerCase().trim() == "no"){
       trys -= 1
       console.log(`I have ${trys} try/s left`)
@@ -98,45 +97,45 @@ async function start_computer() {
             process.exit()
           }
 
-    // make last guess the lower limit by acquiring it from guess array
+// make last guess the lower limit by acquiring it from guess array
           if (highOrLow.toLowerCase().trim() == "h"){
             lowBarrierNum = guesses[(guesses.length) - 1]        
           }
-    // make last guess higher limit by acquiring it from guess array
+// make last guess higher limit by acquiring it from guess array
           else if(highOrLow .toLowerCase().trim()== "l"){
             highBarrierNum = guesses[(guesses.length) - 1]
           }
-    // goes loop to check if h/l again, unlimited trys
+// goes loop to check if h/l again, unlimited trys
           else {
           console.log("Invalid input")
           continue
         }      
 
-    // create new median from limits and check against the secret number 
+// create new median from limits and check against the secret number 
           compGuesser(lowBarrierNum ,highBarrierNum)
           console.log(`My limits are ${lowBarrierNum} and ${highBarrierNum}`)
           let answer =  await ask(`\nIs the value ${compGuess}? `)
 
-    // cheat detector checks if guess is correct yet answer is no
+// cheat detector checks if guess is correct yet answer is no
           if (compGuess == secretNumber && answer == "no"){
               console.log('You are cheating!!Game over!')
               process.exit()
           }
       
 
-    // if guess is correct,breaks from loop
+// if guess is correct,breaks from loop
           if (answer.toLowerCase() == "yes"){
             trys -= 1
             console.log(`Nice I won in ${7-trys} trys`)
             break
           }
               
-    // if wrong, restarts loop until trys done
+// if wrong, restarts loop until trys done
           else if (answer.toLowerCase().trim() == "no"){
             trys -= 1
                 console.log(`I have ${trys} try/s left`)
           }
-    // invalid input breaks from loop
+// invalid input breaks from loop
           else{
               console.log(`Invalid input... `)
               break 
@@ -144,7 +143,7 @@ async function start_computer() {
             }
 // ----------------End of while loop --------------
             
-    // After exit while loop, asked to play again
+// After exit while loop, asked to play again
         playAGain = await ask("The game is over... Click y to play again or any key to exit:  ")
         if (playAGain.toLowerCase().trim()== "y"){
           whoStarts()
@@ -180,7 +179,7 @@ async function start_user() {
     let highBarrier = await ask ("What do you want the high barrier to be? Insert numbers only!: ")
     let highBarrierNum = Number(highBarrier)
 
-  // invalid inputs lead to to restart of the game
+// invalid inputs lead to to restart of the game
   if (isNaN(lowBarrier) == true || isNaN(highBarrier) == true || lowBarrierNum >= highBarrier){
     console.log("Sorry invalid input...The game is over.")
     process.exit()
@@ -188,7 +187,6 @@ async function start_user() {
   
 // create random number between two limits
     let secretNumber = Math.round(Math.random()* (highBarrierNum - lowBarrierNum) + lowBarrierNum);
-    console.log(secretNumber)
     console.log("Ok I thought of a secret number...")
 
 

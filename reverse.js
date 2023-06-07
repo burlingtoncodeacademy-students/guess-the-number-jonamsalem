@@ -33,7 +33,6 @@ if (isNaN(lowBarrier) == true || isNaN(highBarrier) == true || lowBarrierNum >= 
 
 // create random number between two limits
   let secretNumber = Math.round(Math.random()* (highBarrierNum - lowBarrierNum) + lowBarrierNum);
-  console.log(secretNumber)
   console.log("Ok I thought of a secret number...")
 
 
